@@ -3,7 +3,7 @@ from contextlib import contextmanager
 from datetime import date, datetime, time as dt_time, timedelta
 from pathlib import Path
 
-from data.services import BOOKING_DAYS_AHEAD, SERVICES, SLOT_STEP_MIN
+from salon_data.services import BOOKING_DAYS_AHEAD, SERVICES, SLOT_STEP_MIN
 
 DB_PATH = Path(__file__).parent.parent / "data" / "salon.db"
 
