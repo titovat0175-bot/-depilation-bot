@@ -5,13 +5,11 @@ import sys
 from telegram import Update
 from telegram.ext import Application, CallbackQueryHandler, CommandHandler, ContextTypes, MessageHandler, filters
 
-from config import BOT_TOKEN, SALON_NAME, is_admin
+from config import BOT_TOKEN, SALON_NAME
 from database.db import init_db
 from handlers.admin import build_admin_handlers
 from handlers.booking import build_booking_handler, client_cancel_booking, my_bookings
 from handlers.menu import (
-    ADMIN_BTN,
-    BOOK_BTN,
     CONTACTS_BTN,
     FAQ_BTN,
     MY_BOOKINGS_BTN,
@@ -58,10 +56,17 @@ async def on_error(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 def main() -> None:
     if not BOT_TOKEN or BOT_TOKEN == "your_bot_token_here":
-        print("Error: set BOT_TOKEN in .env")
+        logger.error("BOT_TOKEN не задан. Добавьте переменную BOT_TOKEN в Bothost.")
         sys.exit(1)
 
-    init_db()
+    logger.info("BOT_TOKEN найден (%s...)", BOT_TOKEN[:8])
+
+    try:
+        init_db()
+        logger.info("База данных готова")
+    except Exception:
+        logger.exception("Ошибка инициализации базы данных")
+        sys.exit(1)
 
     app = Application.builder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
@@ -80,12 +85,13 @@ def main() -> None:
     if app.job_queue:
         app.job_queue.run_repeating(check_reminders, interval=300, first=15)
     else:
-        logger.warning("JobQueue unavailable - install python-telegram-bot[job-queue]")
+        logger.warning("JobQueue unavailable - check APScheduler in requirements.txt")
 
-    logger.info("Bot %s started", SALON_NAME)
-    app.run_polling(allowed_updates=Update.ALL_TYPES)
+    logger.info("Bot %s started, polling...", SALON_NAME)
+    app.run_polling(allowed_updates=Update.ALL_TYPES, drop_pending_updates=True)
 
 
 if __name__ == "__main__":
-    asyncio.set_event_loop(asyncio.new_event_loop())
+    if sys.platform == "win32":
+        asyncio.set_event_loop(asyncio.new_event_loop())
     main()
