@@ -3,7 +3,7 @@ from datetime import date, timedelta
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-from data.services import BOOKING_DAYS_AHEAD
+from salon_data.services import BOOKING_DAYS_AHEAD
 
 MONTH_NAMES = (
     "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
