@@ -1,7 +1,7 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
 
 from config import SALON_ADDRESS, SALON_HOURS, SALON_NAME, SALON_PHONE, is_admin
-from data.services import FAQ, SERVICES
+from salon_data.services import FAQ, SERVICES
 
 BOOK_BTN = "\U0001f4c5 \u0417\u0430\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f"
 SERVICES_BTN = "\U0001f485 \u0423\u0441\u043b\u0443\u0433\u0438 \u0438 \u0446\u0435\u043d\u044b"
