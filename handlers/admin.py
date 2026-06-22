@@ -4,7 +4,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CallbackQueryHandler, CommandHandler, ContextTypes, ConversationHandler, MessageHandler, filters
 
 from config import is_admin
-from data.services import SERVICES
+from salon_data.services import SERVICES
 from database.db import (
     _booking_duration_minutes,
     add_service_to_booking,
