@@ -100,9 +100,10 @@ def faq_text() -> str:
 
 
 def multi_service_keyboard(selected: set[str]) -> InlineKeyboardMarkup:
+    check_prefix = "\u2705 "
     buttons = [
         [InlineKeyboardButton(
-            f"{'\u2705 ' if key in selected else ''}{service['name']}",
+            f"{check_prefix if key in selected else ''}{service['name']}",
             callback_data=f"svc:{key}",
         )]
         for key, service in SERVICES.items()
